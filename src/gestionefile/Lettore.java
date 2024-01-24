@@ -20,14 +20,13 @@ public class Lettore extends Thread{
     /**
      * Legge il file senza tener conto del tipo di file
      * e lo mostra in output
+     * @return 
      */
     public String leggi(){
         StringBuilder sb= new StringBuilder();
-        FileReader fr;
         int i; 
-        try { 
-            //1) apro il file
-            fr = new FileReader(nomeFile);
+         //1) apro il file
+        try( FileReader  fr = new FileReader(nomeFile)) { 
             //2) leggo carattere per carattere e lo stampo 
             while ((i=fr.read()) != -1)
                sb.append((char) i);
