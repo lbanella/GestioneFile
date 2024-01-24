@@ -49,9 +49,20 @@ public class GestioneFile {
         Scrittore scrittore = new Scrittore("output.csv", username + ";" + passwordCifrata);
         Thread threadScrittore = new Thread(scrittore);
         threadScrittore.start();
+         try {
+            threadScrittore.join();
+        } catch (InterruptedException ex) {
+            System.err.println("Errore nel metodo join()");
+        } 
         
         //4) COPIA
-        
+          Copiatore copiatore = new Copiatore("output.csv","copia.csv");
+        copiatore.start();
+        try {
+            copiatore.join();
+        } catch (InterruptedException ex) {
+            System.err.println("Errore nel metodo join()");
+        }
         
         
         
