@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author Lorenzo Banella
- * @version 18/01/24
+ * @version 24/01/24
  */
 
 public class Scrittore implements Runnable{

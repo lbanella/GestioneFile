@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gestionefile;
-import java.io.FileReader;
-import java.io.IOException;
+
 /**
  *
- * @author Utente
+ * @author @author Lorenzo Banella
+ * @version 24/01/24
  */
 public class Copiatore extends Thread {
     String nomeFileDaCopiare;
@@ -19,13 +15,14 @@ public class Copiatore extends Thread {
        this.nomeFileFinale=nomeFileFinale;
     }
     
-    /**
-     * Legge il file senza tener conto del tipo di file
-     * e lo mostra in output
-     */
+    
     public void copia(){
+        //1) Leggo il contenuto del file da copiare
         Lettore lettore = new Lettore(nomeFileDaCopiare);
-        Scrittore scrittore = new Scrittore(nomeFileFinale, lettore.leggi());
+        String contenuto=lettore.leggi();
+
+        //2)Scrivo il contenuto del file copiato
+        Scrittore scrittore = new Scrittore(nomeFileFinale,contenuto );
         Thread threadScrittore = new Thread(scrittore);
         threadScrittore.start();
          try {

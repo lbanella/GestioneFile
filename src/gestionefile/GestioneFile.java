@@ -4,8 +4,8 @@ import java.io.*;
 
 /**
  *
- * @author Lorenzo
- * @version 18/01/24
+ * @author Lorenzo Banella
+ * @version 24/01/24
  */
 public class GestioneFile {
 
@@ -13,7 +13,7 @@ public class GestioneFile {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-      
+        //1)LETTURA
         Lettore lettore = new Lettore("user.json");
         lettore.start();
         try {
@@ -35,16 +35,9 @@ public class GestioneFile {
         } catch (IOException e) {
             System.err.println("Errore durante la lettura dell'input: " + e.getMessage());
         }
-        
-        
         Cifratore cifratore=new Cifratore("TPSIT");
         String passwordCifrata = cifratore.cifra(password);
       
-
-        
-
-  
-        
         //3) SCRITTURA
         Scrittore scrittore = new Scrittore("output.csv", username + ";" + passwordCifrata);
         Thread threadScrittore = new Thread(scrittore);

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  *
  * @author Lorenzo Banella
- * @version 18/01/24
+ * @version 24/01/24
  */
 
 public class Cifratore {
