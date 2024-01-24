@@ -12,6 +12,7 @@ import java.io.IOException;
 public class Lettore extends Thread{
     String nomeFile;
     
+    
     public Lettore(String nomeFile){
         this.nomeFile = nomeFile;
     }
@@ -20,7 +21,8 @@ public class Lettore extends Thread{
      * Legge il file senza tener conto del tipo di file
      * e lo mostra in output
      */
-    public void leggi(){
+    public String leggi(){
+        StringBuilder sb= new StringBuilder();
         FileReader fr;
         int i; 
         try { 
@@ -28,19 +30,19 @@ public class Lettore extends Thread{
             fr = new FileReader(nomeFile);
             //2) leggo carattere per carattere e lo stampo 
             while ((i=fr.read()) != -1)
-                System.out.print((char) i);
-            
+               sb.append((char) i);
             System.out.print("\n\r");
             //3) chiudo il file
             fr.close();
         } catch (IOException ex) {
             System.err.println("Errore in lettura!");
         }
+        return sb.toString();
     }
     
 
     @Override
     public void run(){
-        leggi();
+        System.out.println(leggi());
     }
 }
