@@ -4,22 +4,37 @@ package gestionefile;
 /**
  *
  * @author Lorenzo Banella
- * @version 24/01/24
+ * @version 31/01/2024
  */
 
 public class Matrice {
 
-    char mv[][];
-    String verme;
+    private char mv[][];
+    private String verme;
+    
+    /**
+     * @param  verme
+     */
 
     public Matrice(String verme) {
         this.mv = new char[26][26];
         this.verme = verme;
     }
+    
+    /**
+     * @param  r
+     * @param  c
+     * @param  el
+     */
 
     public void setElemento(int r, int c, int el) {
         this.mv[r][c] = (char) el;
     }
+    
+    /**
+     * @param  r
+     * @param  c
+     */
 
     public char getElemento(int r, int c) {
         return mv[r][c];
@@ -37,6 +52,11 @@ public class Matrice {
             System.out.print("\n");
         }
     }
+    
+    /**
+     * @param  fch
+     * @return fch
+     */
 
     public String cifra(String fch){
         String fcf;
@@ -65,6 +85,11 @@ public class Matrice {
 
         return(fcf);
     }
+    
+    /**
+     * @param  fcf
+     * @return fcf
+     */
 
 public String deCifra(String fcf){
         String fch="";

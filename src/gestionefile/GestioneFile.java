@@ -1,11 +1,13 @@
 package gestionefile;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Lorenzo Banella
- * @version 24/01/24
+ * @version 31/01/2024
  */
 public class GestioneFile {
 
@@ -14,7 +16,7 @@ public class GestioneFile {
      */
     public static void main(String[] args) {
         //1)LETTURA
-        Lettore lettore = new Lettore("user.json");
+        Lettore lettore = new Lettore("user.json",false);
         lettore.start();
         try {
             lettore.join();
@@ -26,8 +28,8 @@ public class GestioneFile {
         //2)ELABORAZIONE
         String username = null;
         String password = null;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try {
+        
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
             System.out.println("Inserisci l'username");
             username = br.readLine().toUpperCase();  // Legge una riga dall'input
             System.out.println("Inserisci la password");
@@ -56,10 +58,103 @@ public class GestioneFile {
         } catch (InterruptedException ex) {
             System.err.println("Errore nel metodo join()");
         }
+        System.out.println("Copia nel file "+copiatore.getNomeFileFinale()+" effettuata !");
+        
+
+        
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        // ISSUE 3
+         System.out.println("ISSUE 3");
+         try {
+            Thread.sleep(1500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String[] arrayDiProva = {"1","Lorenzo","Banella","Studente"};
+         Scrittore scrittoreCSV = new Scrittore("user.csv",arrayDiProva);
+        Thread threadScrittoreCSV = new Thread(scrittoreCSV);
+        threadScrittoreCSV.start();
+         try {
+            threadScrittoreCSV.join();
+        } catch (InterruptedException ex) {
+            System.err.println("Errore nel metodo join()");
+        } 
+         
+        
+        
+         Lettore lettoreCSV=new Lettore("user.csv",true);
+         System.out.println("LETTURA DEL FILE "+lettoreCSV.getNomeFile());
+         lettoreCSV.start();
+         try {
+            lettoreCSV.join();
+        } catch (InterruptedException ex) {
+            System.err.println("Errore nel metodo join()");
+        }
+         
+         try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        //ISSUE 4
+        
+        
+        System.out.println("ISSUE 4");
+         try {
+            Thread.sleep(1500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
         
+        //Creazione di un User con costruttore parametrico
+        /*
+        User user=new User(1,"Lorenzo","Banella","studente");
+        esportaUser("user.txt",user);
+        */
+        importaUser("user.txt");
     }
     
-}
+
+    /**
+     * Metodo statico di gestione File 
+     * si appoggia al metodo esporta di User 
+     * esporta sotto forma di un flusso di Byte l'User ,passato come secondo parametro,
+     * nel file passato come primo parametro del metodo
+     * 
+     * @param  nomeFile
+     * @param  user
+     */
+    
+    public static void esportaUser(String nomeFile,User user){
+       user.esporta(nomeFile);
+       System.out.println("Esportazione Completata!!");
+    }
+    
+    /**
+     * Metodo statico di gestione File 
+     * si appoggia al metodo Costruttore di User 
+     * per istanziarne uno nuovo da un flusso di Byte
+     * che si trovano nel file passato come parametro del metodo
+     * 
+     * @param  nomeFile
+     */
+    public static void importaUser(String nomeFile){
+          User user =new User(nomeFile);
+           System.out.println("Importazione Completata!!");
+          System.out.println(user.toString()); 
+      }
+		
+    }   
+
 

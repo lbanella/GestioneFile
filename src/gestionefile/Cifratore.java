@@ -6,13 +6,17 @@ import java.util.ArrayList;
 /**
  *
  * @author Lorenzo Banella
- * @version 24/01/24
+ * @version 31/01/2024
  */
 
 public class Cifratore {
     private  Matrice matrice;
     private ArrayList<Vigenere> quadranti = new ArrayList<Vigenere>();
-    private String verme;
+    
+    /**
+     * 
+     * @param verme
+     */
     
     public Cifratore(String verme){
     this.matrice = new Matrice(verme);
@@ -38,15 +42,26 @@ public class Cifratore {
      }
     }  
     }
-    public String cifra(String messaggio){
-          String fraseCriptata=matrice.cifra(messaggio);
     
+    /**
+     * 
+     * @param messaggio
+     * @return fraseCriptata
+     */
+    
+    public String cifra(String messaggio){
+        String fraseCriptata=matrice.cifra(messaggio);
         return fraseCriptata;
     }
     
-    public String decifra(String messaggio){
-          String fraseCriptata=matrice.deCifra(messaggio);
+    /**
+     * 
+     * @param messaggio
+     * @return fraseDecriptata
+     */
     
-        return fraseCriptata;
+    public String decifra(String messaggio){
+        String fraseDecriptata=matrice.deCifra(messaggio);
+        return fraseDecriptata;
     }
 }

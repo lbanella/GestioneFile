@@ -1,36 +1,46 @@
 package gestionefile;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+
 
 /**
  *
  * @author Lorenzo Banella
- * @version 24/01/24
+ * @version 31/01/2024
  */
 
 public class Lettore extends Thread{
-    String nomeFile;
+    private String nomeFile;
+    private boolean console;
+    /*
+    if (console == false)userà il metodo leggi
+     if (console == true) userà il metodo leggiCSV
+    */
     
-    
-    public Lettore(String nomeFile){
+    /**
+     * @param  nomeFile
+     * @param  console
+     */
+    public Lettore(String nomeFile,boolean console){
         this.nomeFile = nomeFile;
+        this.console=console;
     }
     
     /**
      * Legge il file senza tener conto del tipo di file
-     * e lo mostra in output
-     * @return 
+     * ed ogni carattere
+     *  lo salvo su uno StringBuilder
+     * @return sb.toString()
      */
     public String leggi(){
         StringBuilder sb= new StringBuilder();
         int i; 
          //1) apro il file
         try( FileReader  fr = new FileReader(nomeFile)) { 
-            //2) leggo carattere per carattere e lo stampo 
+            //2) leggo carattere per carattere 
             while ((i=fr.read()) != -1)
-               sb.append((char) i);
-            System.out.print("\n\r");
+                sb.append((char) i);
+            sb.append("\n\r");
             //3) chiudo il file
             fr.close();
         } catch (IOException ex) {
@@ -39,9 +49,46 @@ public class Lettore extends Thread{
         return sb.toString();
     }
     
+    /**
+     * utilizzando la classe DataInputStream leggendo ogni riga come stringa UTF 
+     */
+      public void  leggiCSV () {
+       
+        try (DataInputStream lettore = new DataInputStream(new FileInputStream(nomeFile))) {
+            String line;
+            while (true) {
+                line = lettore.readUTF();
+                  System.out.print(line);
+            }
+        } catch (EOFException ignored) {
+            /* non c'è più niente da leggere */
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+            System.err.println("Errore in lettura!");
+        }
+     
+    }
+
+    public String getNomeFile() {
+        return nomeFile;
+    }
+
+    public boolean isConsole() {
+        return console;
+    }
+     
+
+    
+    
+    
 
     @Override
     public void run(){
-        System.out.println(leggi());
+        if(!console){
+           System.out.println(leggi());
+        }else{
+            leggiCSV();
+        }
+        
     }
 }
