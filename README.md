@@ -45,6 +45,4 @@ Il progetto prevede le seguenti attività:
 - Scrivere una classe `User` che consenta di contenere tutti i dati degli utenti.
 - Implementare i metodi per leggere e scrivere la classe sfruttando la serializzazione degli oggetti.
 
-### Revisionare:
-Riga 31 Classe Gestione File
-Riga 78 Classe Scrittore
+
