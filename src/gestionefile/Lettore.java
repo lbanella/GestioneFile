@@ -53,7 +53,6 @@ public class Lettore extends Thread{
      * utilizzando la classe DataInputStream leggendo ogni riga come stringa UTF 
      */
       public void  leggiCSV () {
-       
         try (DataInputStream lettore = new DataInputStream(new FileInputStream(nomeFile))) {
             String line;
             while (true) {
