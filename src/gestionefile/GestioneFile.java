@@ -17,6 +17,10 @@ public class GestioneFile {
      */
     public static void main(String[] args) {
         
+        
+        
+       //Istanzio un BufferedReader inizialmente null che mi servirà per richiedere i dati in Input
+        BufferedReader br =null;
         //1)LETTURA
         Lettore lettore = new Lettore("user.json",false);
         lettore.start();
@@ -28,29 +32,28 @@ public class GestioneFile {
        
 
         //2)ELABORAZIONE
-        /*String username = null;
+        String username = null;
         String password = null;
+        String verme =null;
         
         
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
+        try{
+            br = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Inserisci l'username");
-            username = br.readLine().toUpperCase();  // Legge una riga dall'input
+            username = br.readLine();  // metodo di BufferedReader che serve per leggere una Stringa dall' input
             System.out.println("Inserisci la password");
-             password = br.readLine().toUpperCase(); // Legge una riga dall'input
+            password = br.readLine().toUpperCase(); 
+            System.out.println("Inserisci il verme");
+             verme = br.readLine().toUpperCase();
         } catch (IOException e) {
             System.err.println("Errore durante la lettura dell'input: " + e.getMessage());
         }
-        */
         
         
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("Enter username");
-        String username=myObj.nextLine().toUpperCase();
         
-        System.out.println("Enter password");
-        String password =myObj.nextLine().toUpperCase();
-        
-        Cifratore cifratore=new Cifratore("TPSIT");
+  
+   
+        Cifratore cifratore=new Cifratore(verme);
         String passwordCifrata = cifratore.cifra(password);
       
         //3) SCRITTURA
@@ -90,32 +93,62 @@ public class GestioneFile {
         } catch (InterruptedException ex) {
             Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
         }
+         
+        Scrittore scrittoreCSV = new Scrittore("user.csv");
+        String id = null;
+        String name = null;
+        String surname = null;
+        String role = null;
+        try{
+            br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Inserisci l'id");
+            id = br.readLine();
+            scrittoreCSV.addElemento(id);
+            System.out.println("Inserisci il name");
+            name = br.readLine(); 
+            scrittoreCSV.addElemento(name);
+            System.out.println("Inserisci il surname");
+            surname = br.readLine(); 
+            scrittoreCSV.addElemento(surname);
+            System.out.println("Inserisci il role");
+            role = br.readLine(); 
+            scrittoreCSV.addElemento(role);
+        } catch (IOException e) {
+            System.err.println("Errore durante la lettura dell'input: " + e.getMessage());
+        }
         
-        //String[] arrayDiProva = {"1","Lorenzo","Banella","Studente"};
+        /* il threadScrittore viene istanziato e fatto partire
+        *  quando la dimensione del suo array  è uguale a 4 ovvero con i campi
+        *  id,name,surname e role inseriti
+        */
         
-         Scrittore scrittoreCSV = new Scrittore("user.csv");
-        Thread threadScrittoreCSV = new Thread(scrittoreCSV);
-        threadScrittoreCSV.start();
-         try {
-            threadScrittoreCSV.join();
-        } catch (InterruptedException ex) {
-            System.err.println("Errore nel metodo join()");
-        } 
+        
+        if(scrittoreCSV.getSizeOfArrayElementi()==4){
+            Thread threadScrittoreCSV = new Thread(scrittoreCSV);
+            threadScrittoreCSV.start();
+            try {
+                threadScrittoreCSV.join();
+            } catch (InterruptedException ex) {
+                System.err.println("Errore nel metodo join()");
+            } 
+        }
+        
+       
          
         
         
-         Lettore lettoreCSV=new Lettore("user.csv",true);
-         System.out.println("LETTURA DEL FILE "+lettoreCSV.getNomeFile());
-         lettoreCSV.start();
-         try {
+        Lettore lettoreCSV=new Lettore("user.csv",true);
+        System.out.println("LETTURA DEL FILE "+lettoreCSV.getNomeFile());
+        lettoreCSV.start();
+        try{
             lettoreCSV.join();
-        } catch (InterruptedException ex) {
+        }catch (InterruptedException ex) {
             System.err.println("Errore nel metodo join()");
         }
          
-         try {
+        try {
             Thread.sleep(3000);
-        } catch (InterruptedException ex) {
+        }catch (InterruptedException ex) {
             Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -124,9 +157,9 @@ public class GestioneFile {
         
         
         System.out.println("ISSUE 4");
-         try {
+        try {
             Thread.sleep(1500);
-        } catch (InterruptedException ex) {
+        }catch (InterruptedException ex) {
             Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -168,7 +201,7 @@ public class GestioneFile {
           User user =new User(nomeFile);
            System.out.println("Importazione Completata!!");
           System.out.println(user.toString()); 
-      }
+     }
     
 		
     }   
